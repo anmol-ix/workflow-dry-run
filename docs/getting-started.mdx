@@ -1,0 +1,221 @@
+---
+title: Getting Started
+description: 'Run DelhiMart OS locally in under 5 minutes'
+---
+
+## Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+<AccordionGroup>
+  <Accordion title="Node.js >= 20">
+    Download from [nodejs.org](https://nodejs.org/) or use a version manager like [nvm](https://github.com/nvm-sh/nvm).
+    
+    Verify installation:
+    ```bash
+    node --version
+    # Should output v20.x.x or higher
+    ```
+  </Accordion>
+
+  <Accordion title="pnpm Package Manager">
+    Install pnpm globally:
+    ```bash
+    npm install -g pnpm@9.15.2
+    ```
+    
+    Verify installation:
+    ```bash
+    pnpm --version
+    # Should output 9.15.2
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Installation
+
+<Steps>
+  <Step title="Clone the repository">
+    ```bash
+    git clone https://github.com/anmol-ix/workflow-dry-run.git
+    cd workflow-dry-run/njx
+    ```
+  </Step>
+
+  <Step title="Install dependencies">
+    ```bash
+    pnpm install
+    ```
+    This installs dependencies for all workspace packages (api, web, docs).
+  </Step>
+</Steps>
+
+## Running the Application
+
+### Option 1: Run Backend and Frontend Separately
+
+<Tabs>
+  <Tab title="Backend (API)">
+    Start the Express API server:
+    
+    ```bash
+    pnpm --filter @delhimart/api dev
+    ```
+    
+    Expected output:
+    ```
+    🚀 DelhiMart API running at http://localhost:3001
+       Health check: http://localhost:3001/health
+    ```
+    
+    The API will run on **port 3001** by default (configurable via `PORT` environment variable).
+  </Tab>
+
+  <Tab title="Frontend (Web)">
+    Start the Vite development server:
+    
+    ```bash
+    pnpm --filter @delhimart/web dev
+    ```
+    
+    Expected output:
+    ```
+    VITE v6.0.6  ready in xxx ms
+
+    ➜  Local:   http://localhost:5173/
+    ➜  Network: use --host to expose
+    ```
+    
+    The frontend will run on **port 5173** and automatically proxy `/api/*` requests to `http://localhost:3001`.
+  </Tab>
+</Tabs>
+
+### Option 2: Run from Root
+
+You can also use the root package scripts:
+
+```bash
+# Run backend
+pnpm dev
+
+# Run tests
+pnpm test
+
+# Build backend
+pnpm build
+```
+
+<Note>
+The root `pnpm dev` command currently only starts the backend API. To run the frontend, use the `--filter @delhimart/web dev` command shown above.
+</Note>
+
+## Verification
+
+### 1. Verify Backend Health Endpoint
+
+With the backend running, test the health endpoint:
+
+```bash
+curl http://localhost:3001/health
+```
+
+Expected response:
+```json
+{
+  "status": "ok"
+}
+```
+
+### 2. Verify Frontend Application
+
+With both backend and frontend running:
+
+1. Open [http://localhost:5173](http://localhost:5173) in your browser
+2. You should see **"DelhiMart OS: OK"** with a green status indicator
+3. The frontend calls `/api/health` which is proxied to `http://localhost:3001/health`
+
+<Check>
+If you see the green status indicator, congratulations! Your local development environment is set up correctly.
+</Check>
+
+### Frontend Error States
+
+The frontend handles different states:
+
+<AccordionGroup>
+  <Accordion title="Loading State" icon="spinner">
+    Shows "Connecting to DelhiMart OS..." while fetching health status
+  </Accordion>
+
+  <Accordion title="Success State" icon="check">
+    Shows "DelhiMart OS: OK" with green indicator when backend is healthy
+  </Accordion>
+
+  <Accordion title="Error State" icon="triangle-exclamation">
+    Shows "System Offline" with retry button if backend is unreachable.
+    
+    **Troubleshooting**: Ensure `apps/api` is running on port 3001.
+  </Accordion>
+</AccordionGroup>
+
+## API Proxy Configuration
+
+The frontend uses Vite's proxy to route API requests:
+
+- **Frontend Request**: `GET /api/health`
+- **Proxied To**: `http://localhost:3001/health`
+
+This is configured in `apps/web/vite.config.ts`:
+
+```typescript
+proxy: {
+  '/api': {
+    target: process.env.VITE_API_BASE_URL || 'http://localhost:3001',
+    changeOrigin: true,
+    rewrite: (path) => path.replace(/^\/api/, ''),
+  },
+}
+```
+
+<Tip>
+You can customize the backend URL by setting the `VITE_API_BASE_URL` environment variable.
+</Tip>
+
+## Project Structure
+
+```
+njx/
+├── apps/
+│   ├── api/              # Backend Express API
+│   │   ├── src/
+│   │   │   └── index.ts  # Main server file with /health endpoint
+│   │   └── package.json
+│   └── web/              # Frontend React app
+│       ├── src/
+│       │   ├── App.tsx   # Main app component with health check
+│       │   └── main.tsx
+│       └── vite.config.ts # Proxy configuration
+├── docs/                 # Mintlify documentation (this site)
+└── package.json          # Root workspace configuration
+```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="API Reference"
+    icon="code"
+    href="/api-reference/health"
+  >
+    Explore the health check API endpoint
+  </Card>
+  <Card
+    title="Run Tests"
+    icon="flask"
+  >
+    Run the test suite:
+    ```bash
+    pnpm test
+    ```
+  </Card>
+</CardGroup>

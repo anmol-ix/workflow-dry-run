@@ -2,5 +2,9 @@
   "name": "@delhimart/docs",
   "version": "0.1.0",
   "private": true,
-  "description": "DelhiMart OS Documentation (placeholder - see INN-23)"
+  "description": "DelhiMart OS Documentation - Mintlify",
+  "scripts": {
+    "dev": "mintlify dev",
+    "install-mintlify": "npm i -g mintlify"
+  }
 }
