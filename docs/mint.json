@@ -1,0 +1,45 @@
+{
+  "name": "DelhiMart OS",
+  "logo": {
+    "dark": "/logo/dark.svg",
+    "light": "/logo/light.svg"
+  },
+  "favicon": "/favicon.svg",
+  "colors": {
+    "primary": "#10b981",
+    "light": "#34d399",
+    "dark": "#059669",
+    "anchors": {
+      "from": "#10b981",
+      "to": "#059669"
+    }
+  },
+  "topbarLinks": [
+    {
+      "name": "GitHub",
+      "url": "https://github.com/anmol-ix/workflow-dry-run"
+    }
+  ],
+  "topbarCtaButton": {
+    "name": "Linear Project",
+    "url": "https://linear.app/ixix/project/workflow-dry-run-56b3c1bbe5ea/overview"
+  },
+  "navigation": [
+    {
+      "group": "Get Started",
+      "pages": [
+        "introduction",
+        "getting-started"
+      ]
+    },
+    {
+      "group": "API Reference",
+      "pages": [
+        "api-reference/health"
+      ]
+    }
+  ],
+  "footerSocials": {
+    "github": "https://github.com/anmol-ix/workflow-dry-run"
+  }
+}

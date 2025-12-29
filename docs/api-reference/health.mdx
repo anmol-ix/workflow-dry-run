@@ -1,0 +1,110 @@
+---
+title: 'GET /health'
+api: 'GET http://localhost:3001/health'
+description: 'Returns the health status of the DelhiMart API'
+---
+
+## Endpoint
+
+```
+GET /health
+```
+
+## Description
+
+The health endpoint returns the current operational status of the DelhiMart API. This is used by the frontend to verify system connectivity and by operators to monitor service availability.
+
+## Request
+
+No parameters or authentication required.
+
+### Example Request
+
+<CodeGroup>
+
+```bash cURL
+curl http://localhost:3001/health
+```
+
+```javascript Fetch
+fetch('http://localhost:3001/health')
+  .then(response => response.json())
+  .then(data => console.log(data));
+```
+
+```python Python
+import requests
+
+response = requests.get('http://localhost:3001/health')
+print(response.json())
+```
+
+</CodeGroup>
+
+## Response
+
+<ResponseField name="status" type="string" required>
+  The health status of the API. Currently always returns `"ok"`.
+</ResponseField>
+
+### Success Response
+
+<ResponseExample>
+
+```json 200 OK
+{
+  "status": "ok"
+}
+```
+
+</ResponseExample>
+
+### Response Codes
+
+<ResponseField name="200" type="Success">
+  API is healthy and operational
+</ResponseField>
+
+## CORS Configuration
+
+The endpoint includes CORS headers for local development:
+
+- `Access-Control-Allow-Origin: *`
+- `Access-Control-Allow-Methods: GET, OPTIONS`
+- `Access-Control-Allow-Headers: Content-Type`
+
+Preflight `OPTIONS` requests return `204 No Content`.
+
+## Frontend Integration
+
+The frontend proxies requests through Vite's dev server:
+
+```typescript
+// Frontend makes request to:
+GET /api/health
+
+// Vite proxies to:
+GET http://localhost:3001/health
+```
+
+See [Getting Started](/getting-started#api-proxy-configuration) for proxy configuration details.
+
+## Implementation
+
+The health endpoint is implemented in `apps/api/src/index.ts`:
+
+```typescript
+app.get('/health', (_req: Request, res: Response) => {
+  res.json({ status: 'ok' });
+});
+```
+
+## Testing
+
+Run the API test suite:
+
+```bash
+pnpm --filter @delhimart/api test
+```
+
+The health endpoint has corresponding tests in `apps/api/src/health.test.ts`.
