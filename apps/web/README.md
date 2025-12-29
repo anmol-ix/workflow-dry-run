@@ -20,7 +20,7 @@ The frontend calls the backend `/health` endpoint. In development, requests to `
 
 ### Option 1: Vite Proxy (Default)
 
-By default, `/api/health` → `http://localhost:3000/health`
+By default, `/api/health` → `http://localhost:3001/health`
 
 The proxy is configured in `vite.config.ts`.
 
