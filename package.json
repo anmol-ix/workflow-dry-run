@@ -1,0 +1,24 @@
+{
+  "name": "delhimart-os",
+  "version": "0.1.0",
+  "private": true,
+  "description": "DelhiMart OS - Marketplace Operations System",
+  "scripts": {
+    "dev": "pnpm --filter @delhimart/api dev",
+    "build": "pnpm --filter @delhimart/api build",
+    "test": "pnpm --filter @delhimart/api test",
+    "lint": "eslint . --ext .ts,.tsx",
+    "format": "prettier --write \"**/*.{ts,tsx,json,md}\""
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.19.1",
+    "@typescript-eslint/parser": "^8.19.1",
+    "eslint": "^9.17.0",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.2"
+  },
+  "packageManager": "pnpm@9.15.2",
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
