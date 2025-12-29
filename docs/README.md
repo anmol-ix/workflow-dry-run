@@ -29,12 +29,15 @@ The docs will be available at `http://localhost:3000`.
 ## Structure
 
 ```
-docs/
-├── mint.json              # Mintlify configuration
-├── introduction.mdx       # Landing page
-├── getting-started.mdx    # Setup guide
-└── api-reference/
-    └── health.mdx         # Health endpoint docs
+/
+├── mint.json              # Mintlify configuration (at repo root)
+└── docs/
+    ├── introduction.mdx       # Landing page
+    ├── getting-started.mdx    # Setup guide
+    └── api-reference/
+        └── health.mdx         # Health endpoint docs
 ```
+
+**Note:** `mint.json` must be at the repository root for Mintlify to detect it.
 
 Implemented in [INN-23](https://linear.app/ixix/issue/INN-23) via subtasks INN-28/29/30.

@@ -28,14 +28,14 @@
     {
       "group": "Get Started",
       "pages": [
-        "introduction",
-        "getting-started"
+        "docs/introduction",
+        "docs/getting-started"
       ]
     },
     {
       "group": "API Reference",
       "pages": [
-        "api-reference/health"
+        "docs/api-reference/health"
       ]
     }
   ],
