@@ -92,18 +92,22 @@ jobs:
               return json.data;
             }
 
-            // --- Find Linear issue by identifier (INN-20) ---
+            // --- Find Linear issue by id (Linear accepts "INN-20" style IDs here) ---
             const findIssueQuery = `
-              query FindIssue($identifier: String!) {
-                issues(filter: { identifier: { eq: $identifier } }) {
-                  nodes { id identifier title }
+              query IssueById($id: String!) {
+                issue(id: $id) {
+                  id
+                  identifier
+                  title
                 }
               }
             `;
-            const data = await linearGraphQL(findIssueQuery, { identifier: issueKey });
-            const issue = data.issues.nodes[0];
+            
+            const data = await linearGraphQL(findIssueQuery, { id: issueKey });
+            const issue = data.issue;
+            
             if (!issue) {
-              core.info(`Linear issue not found for identifier: ${issueKey}`);
+              core.info(`Linear issue not found for id: ${issueKey}`);
               return;
             }
 
