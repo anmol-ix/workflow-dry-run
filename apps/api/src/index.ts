@@ -5,10 +5,15 @@ const PORT = process.env.PORT || 3001;
 
 // CORS middleware for local development
 // Frontend (apps/web) will run on a different port and needs CORS
-app.use((_req: Request, res: Response, next) => {
+app.use((req: Request, res: Response, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Content-Type');
+
+  // Handle preflight requests
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(204);
+  }
   next();
 });
 
